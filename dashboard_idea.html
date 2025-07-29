@@ -19,7 +19,9 @@
         }
 
         body, html {
-            background: #fff;
+            /* Changed for lighter dark mode */
+            background: #222222; /* Slightly lighter dark background */
+            color: #e0e0e0; /* Default text color for dark mode */
         }
 
         @supports (-webkit-touch-callout: none) {
@@ -28,19 +30,19 @@
             }
         }
 
-        /*ROOT COLOR VARIABLES*/
+        /*ROOT COLOR VARIABLES - Adjusted for Lighter Dark Mode with more Blues*/
         :root {
-            --yellow: #fdc500;
-            --blue: #003f88;
-            --lightyellow: #ffd500;
-            --lightblue: #00509d;
-            --darkblue: #00296b;
-            --offwhite: #f0f0f0;
-            --spanishwhite: #9a9a9a;
-            --lightchar: #555;
-            --darkchar: #333;
-            --silverchal: #ccc;
-            --green: #00ff5a;
+            --yellow: #fdc500; /* Remains bright for accent */
+            --blue: #003f88; /* Deep blue, can be used for deep accents or specific elements */
+            --lightyellow: #ffd500; /* Remains bright for accent */
+            --lightblue: #00509d; /* More prominent blue for highlights/interactive elements */
+            --darkblue: #00296b; /* Very dark blue, almost black - less used now */
+            --offwhite: #333333; /* Main background for cards/sections, lighter */
+            --spanishwhite: #b0b0b0; /* Lighter grey for secondary text */
+            --lightchar: #cccccc; /* General light text color */
+            --darkchar: #f0f0f0; /* Main text color (white/off-white) */
+            --silverchal: #888888; /* For borders/dividers, slightly muted */
+            --green: #00ff5a; /* Remains bright for accent */
         }
 
         /*0 - Universal Dashboard*/
@@ -55,6 +57,7 @@
         .dboard_section {
             padding: 40px;
             margin: 0 auto;
+            max-width: 1400px; /* Limit overall width on very large screens */
         }
 
         .dboard_section .pg_name {
@@ -72,6 +75,7 @@
         .dboard_container .pg_subname,
         #grader-name, h3.sub {
             font-size: 32px;
+            color: var(--darkchar);
             margin-bottom: 25px;
         }
 
@@ -79,7 +83,6 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 50px;
-            /* Removed position: relative and min-height as they are not needed for this interaction */
         }
 
         /*1 - Student Dashboard
@@ -88,11 +91,10 @@
             display: flex;
             justify-content: space-between;
             padding: 35px 20px;
-            background-color: var(--offwhite);
+            background-color: var(--offwhite); /* Lighter dark background for card */
             border-radius: 8px;
             flex: 1; /* Allow it to take available space */
             margin-right: 20px; /* Space between summary and adspace */
-            /* Removed transition: opacity and .hidden class rules */
         }
 
         .circle_progress {
@@ -103,7 +105,8 @@
             height: 285px;
             width: 285px;
             border-radius: 50%;
-            background: conic-gradient(#d9d9d9 0deg, #d9d9d9 360deg);
+            /* Adjusted for lighter dark mode background */
+            background: conic-gradient(#555555 0deg, #555555 360deg); 
             transition: background 0.5s ease;
         }
 
@@ -113,7 +116,7 @@
             height: 245px;
             width: 245px;
             border-radius: 50%;
-            background-color: #fffbfb;
+            background-color: #222222; /* Match body background */
         }
 
         .circle_progress.start {
@@ -122,8 +125,8 @@
 
         .prg_value {
             position: relative;
-            font-size: 32px;
             color: var(--darkchar);
+            font-size: 32px;
         }
 
         .gradesum_details {
@@ -159,13 +162,12 @@
             text-align: center;
             align-items: center;
             width: 250px;
-            background-color: var(--blue);
+            background-color: var(--lightblue); /* Changed to lightblue for more blue */
             flex-shrink: 0; /* Prevent it from shrinking */
-            /* Removed transition: opacity and .hidden class rules */
         }
 
         .vertical_adspace h2 {
-            color: #fdc100;
+            color: var(--yellow); /* Remains bright */
             font-size: 32px;
             /* display: none; */ /* Keeping it visible for preview */
         }
@@ -185,10 +187,10 @@
 
         /* New styles for the individual progress blocks */
         .progress_block {
-            background-color: #fff;
+            background-color: #444444; /* Lighter dark background for blocks */
             padding: 15px 20px;
             border-radius: 15px; /* More rounded corners */
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Darker shadow */
             display: flex;
             flex-direction: column; /* Stack icon and text */
             align-items: center;
@@ -230,21 +232,20 @@
 
         .progress_block .metric_label {
             font-size: 16px;
-            color: var(--lightchar);
+            color: var(--spanishwhite);
             transition: color 0.3s ease;
         }
 
         /* Active state for progress blocks */
         .progress_block.active {
-            background-color: var(--darkchar); /* Black background */
+            background-color: var(--lightblue); /* Changed to lightblue for active state */
             border-color: var(--yellow); /* Gold outline */
             color: #fff; /* White text */
             transform: scale(1.05); /* Slightly enlarge on active */
-            /* Removed absolute positioning and full-cover properties */
         }
 
         .progress_block.active .metric_label {
-            color: var(--silverchal); /* Lighter grey for label in active state */
+            color: var(--lightchar); /* Lighter grey for label in active state */
         }
 
         .progress_block.active i {
@@ -329,7 +330,7 @@
                 height: 285px;
                 width: 285px;
             }
-            .grade_summary .circle_progress::before {
+            .circle_progress::before {
                 height: 245px;
                 width: 245px;
             }
@@ -343,7 +344,7 @@
                 height: 245px;
                 width: 245px;
             }
-            .grade_summary .circle_progress::before {
+            .circle_progress::before {
                 height: 205px;
                 width: 205px;
             }
@@ -390,7 +391,7 @@
                 height: 200px; /* Further reduce size for very small screens */
                 width: 200px;
             }
-            .grade_summary .circle_progress::before {
+            .circle_progress::before {
                 height: 160px;
                 width: 160px;
             }
@@ -399,6 +400,40 @@
             }
             .gradesum_text {
                 font-size: 16px;
+            }
+        }
+
+        /* New Media Query for Larger Screens (e.g., > 1600px) */
+        @media screen and (min-width: 1600px) {
+            .dboard_section {
+                padding: 60px 40px; /* More padding for extra large screens */
+            }
+
+            .grade_summary {
+                padding: 50px 30px; /* Increased padding inside the summary box */
+                margin-right: 40px; /* More space from adspace */
+            }
+
+            .gradesum_details {
+                gap: 30px; /* Larger gap between blocks */
+                margin: 0 30px; /* Increased horizontal margin */
+            }
+
+            .progress_block {
+                width: 220px; /* Slightly larger square blocks */
+                height: 220px;
+            }
+
+            .progress_block i {
+                font-size: 56px; /* Larger icon */
+            }
+
+            .progress_block .metric_value {
+                font-size: 32px; /* Larger value font size */
+            }
+
+            .progress_block .metric_label {
+                font-size: 18px; /* Larger label font size */
             }
         }
     </style>
@@ -470,7 +505,7 @@
                 progressValueSpan.textContent = `${currentProgress}%`;
                 circleProgress.style.background = `conic-gradient(
                     var(--progress-color) ${currentProgress * 3.6}deg,
-                    #d9d9d9 ${currentProgress * 3.6}deg
+                    #555555 ${currentProgress * 3.6}deg /* Adjusted for dark mode */
                 )`;
                 if (currentProgress === dataProgress) {
                     clearInterval(progress);
