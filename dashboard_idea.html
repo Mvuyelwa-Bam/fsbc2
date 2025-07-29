@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/821efdec18.js" crossorigin="anonymous"></script>
+    <style>
+        /* CSS from dashboard (2).css - relevant sections extracted */
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Noto Color Emoji', sans-serif;
+            font-weight: 600;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            background: #fff;
+        }
+
+        @supports (-webkit-touch-callout: none) {
+            body, p, span, h1, h2, h3, h4, h5, h6, button, input {
+                font-family: 'Poppins', sans-serif;
+            }
+        }
+
+        /*ROOT COLOR VARIABLES*/
+        :root {
+            --yellow: #fdc500;
+            --blue: #003f88;
+            --lightyellow: #ffd500;
+            --lightblue: #00509d;
+            --darkblue: #00296b;
+            --offwhite: #f0f0f0;
+            --spanishwhite: #9a9a9a;
+            --lightchar: #555;
+            --darkchar: #333;
+            --silverchal: #ccc;
+            --green: #00ff5a;
+        }
+
+        /*0 - Universal Dashboard*/
+        img {
+            border-radius: 50%;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        /*B) Main Dashboard*/
+        .dboard_section {
+            padding: 40px;
+            margin: 0 auto;
+        }
+
+        .dboard_section .pg_name {
+            text-align: center;
+            font-size: 2.35rem;
+            color: var(--darkchar);
+            margin-bottom: 25px;
+        }
+
+        .dboard_container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dboard_container .pg_subname,
+        #grader-name, h3.sub {
+            font-size: 32px;
+            margin-bottom: 25px;
+        }
+
+        .dboard_first {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+            /* Removed position: relative and min-height as they are not needed for this interaction */
+        }
+
+        /*1 - Student Dashboard
+          1. Grade Summary Box*/
+        .grade_summary {
+            display: flex;
+            justify-content: space-between;
+            padding: 35px 20px;
+            background-color: var(--offwhite);
+            border-radius: 8px;
+            flex: 1; /* Allow it to take available space */
+            margin-right: 20px; /* Space between summary and adspace */
+            /* Removed transition: opacity and .hidden class rules */
+        }
+
+        .circle_progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            height: 285px;
+            width: 285px;
+            border-radius: 50%;
+            background: conic-gradient(#d9d9d9 0deg, #d9d9d9 360deg);
+            transition: background 0.5s ease;
+        }
+
+        .circle_progress::before {
+            content: "";
+            position: absolute;
+            height: 245px;
+            width: 245px;
+            border-radius: 50%;
+            background-color: #fffbfb;
+        }
+
+        .circle_progress.start {
+            --progress-color: var(--yellow);
+        }
+
+        .prg_value {
+            position: relative;
+            font-size: 32px;
+            color: var(--darkchar);
+        }
+
+        .gradesum_details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Adjusted gap for new blocks */
+            text-align: center;
+            margin: 0 20px; /* Adjusted margin */
+            flex: 1; /* Allow it to take available space */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center items horizontally */
+        }
+
+        .gradesum_heading {
+            font-size: 30px;
+            color: var(--darkchar);
+            margin-bottom: 10px; /* Added margin to separate from new blocks */
+        }
+
+        .gradesum_text {
+            font-size: 22px;
+            color: var(--darkchar);
+            margin-bottom: 15px; /* Added margin for the grade average text */
+        }
+
+        .gradesum_text #progress-value {
+            color: var(--yellow);
+        }
+
+        .vertical_adspace {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            width: 250px;
+            background-color: var(--blue);
+            flex-shrink: 0; /* Prevent it from shrinking */
+            /* Removed transition: opacity and .hidden class rules */
+        }
+
+        .vertical_adspace h2 {
+            color: #fdc100;
+            font-size: 32px;
+            /* display: none; */ /* Keeping it visible for preview */
+        }
+
+        /* Highlight colors */
+        .highlight_bl {
+            color: var(--lightblue);
+        }
+
+        .highlight_yell {
+            color: var(--yellow);
+        }
+
+        .highlight_gr {
+            color: var(--green);
+        }
+
+        /* New styles for the individual progress blocks */
+        .progress_block {
+            background-color: #fff;
+            padding: 15px 20px;
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column; /* Stack icon and text */
+            align-items: center;
+            justify-content: center;
+            gap: 5px; /* Smaller gap between icon/text */
+            font-size: 20px;
+            color: var(--darkchar);
+            opacity: 0; /* Start hidden for animation */
+            transform: translateY(20px); /* Start slightly below for animation */
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+            cursor: pointer;
+            border: 3px solid transparent; /* Initial transparent border */
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+            z-index: 1; /* Ensure it's above other content */
+
+            /* Desktop square size */
+            width: 200px;
+            height: 200px;
+            max-width: 100%; /* Ensure it doesn't overflow on smaller screens */
+            flex-shrink: 0; /* Prevent shrinking below its size */
+        }
+
+        .progress_block:nth-child(2) { animation-delay: 0.1s; }
+        .progress_block:nth-child(3) { animation-delay: 0.2s; }
+        .progress_block:nth-child(4) { animation-delay: 0.3s; }
+
+
+        .progress_block i {
+            font-size: 48px; /* Larger icon size */
+            margin-bottom: 10px; /* Space between icon and text */
+            transition: font-size 0.3s ease, opacity 0.3s ease, color 0.3s ease;
+        }
+
+        .progress_block .metric_value {
+            font-size: 28px; /* Larger value font size */
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .progress_block .metric_label {
+            font-size: 16px;
+            color: var(--lightchar);
+            transition: color 0.3s ease;
+        }
+
+        /* Active state for progress blocks */
+        .progress_block.active {
+            background-color: var(--darkchar); /* Black background */
+            border-color: var(--yellow); /* Gold outline */
+            color: #fff; /* White text */
+            transform: scale(1.05); /* Slightly enlarge on active */
+            /* Removed absolute positioning and full-cover properties */
+        }
+
+        .progress_block.active .metric_label {
+            color: var(--silverchal); /* Lighter grey for label in active state */
+        }
+
+        .progress_block.active i {
+            color: var(--yellow); /* Icon turns yellow when active */
+        }
+        .progress_block.active .metric_value {
+            color: var(--yellow); /* Value turns yellow when active */
+        }
+
+
+        /* Animations */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsiveness adjustments */
+        @media screen and (max-width: 1300px) {
+            .gradesum_details {
+                margin: 0 10px; /* Adjusted margin */
+            }
+        }
+
+        @media screen and (max-width: 1000px) {
+            .dboard_first {
+                flex-direction: column;
+                gap: 12.5px;
+                min-height: auto; /* Allow height to adjust when stacked */
+            }
+            .vertical_adspace {
+                width: 100%;
+                height: 100px; /* Give it a fixed height for smaller screens */
+            }
+            .grade_summary {
+                margin-right: 0; /* Remove margin when stacked */
+                flex-direction: column; /* Stack items in grade summary */
+                align-items: center;
+                padding: 20px;
+            }
+            .gradesum_details {
+                width: 100%; /* Take full width when stacked */
+                margin-top: 20px; /* Space between circle and details */
+                gap: 15px; /* Smaller gap for stacked items */
+                flex-direction: row; /* Arrange blocks in a row on smaller desktops */
+                flex-wrap: wrap; /* Allow wrapping */
+                justify-content: center; /* Center blocks in the row */
+            }
+            .progress_block {
+                width: calc(50% - 10px); /* Two blocks per row with gap */
+                height: 150px; /* Adjust height for smaller screens */
+                font-size: 16px;
+                padding: 10px;
+            }
+            .progress_block i {
+                font-size: 36px;
+            }
+            .progress_block .metric_value {
+                font-size: 20px;
+            }
+            .progress_block .metric_label {
+                font-size: 14px;
+            }
+        }
+
+        @media screen and (max-width: 820px) {
+            .gradesum_details {
+                margin: 20px 0;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .dboard_section {
+                padding: 40px 10px 10px;
+            }
+            .grade_summary .circle_progress {
+                height: 285px;
+                width: 285px;
+            }
+            .grade_summary .circle_progress::before {
+                height: 245px;
+                width: 245px;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .dboard_container .pg_subname {
+                font-size: 25px;
+            }
+            .grade_summary .circle_progress {
+                height: 245px;
+                width: 245px;
+            }
+            .grade_summary .circle_progress::before {
+                height: 205px;
+                width: 205px;
+            }
+            .progress_block {
+                width: 100%; /* Full width on mobile */
+                height: 120px; /* Smaller height for mobile */
+                font-size: 14px;
+                padding: 10px;
+            }
+            .progress_block i {
+                font-size: 30px;
+            }
+            .progress_block .metric_value {
+                font-size: 18px;
+            }
+            .progress_block .metric_label {
+                font-size: 12px;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .dboard_container .pg_subname {
+                font-size: 22px;
+            }
+            .gradesum_heading {
+                font-size: 26px;
+            }
+            .gradesum_text {
+                font-size: 18px;
+            }
+            .progress_block i {
+                font-size: 24px;
+            }
+        }
+
+        @media screen and (max-width: 425px) {
+            .dboard_section .pg_name {
+                font-size: 2rem;
+            }
+            .dboard_container .pg_subname {
+                font-size: 20px;
+            }
+            .grade_summary .circle_progress {
+                height: 200px; /* Further reduce size for very small screens */
+                width: 200px;
+            }
+            .grade_summary .circle_progress::before {
+                height: 160px;
+                width: 160px;
+            }
+            .gradesum_heading {
+                font-size: 24px;
+            }
+            .gradesum_text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="dboard_section" id="student">
+        <h2 class="pg_name">Dashboard</h2>
+        <div class="dboard_container">
+            <h3 class="pg_subname">Welcome, John! 🙋</h3> <!-- Hardcoded first name for preview -->
+
+            <div class="dboard_first">
+                <div class="grade_summary">
+                    <div class="progress_container">
+                        <div class="circle_progress start" data-start="0" data-progress="75">
+                            <span class="prg_value">75%</span>
+                        </div>
+                    </div>
+
+                    <div class="gradesum_details">
+                        <div class="gradesum_heading">
+                            <h4>Grades Summary</h4>
+                        </div>
+                        <div class="gradesum_text">
+                            <p>Your current grade average is <span id="progress-value">75%</span></p>
+                        </div>
+                        
+                        <!-- New Progress Blocks -->
+                        <div class="progress_block" data-metric="streak">
+                            <i class="fa-solid fa-fire highlight_yell"></i> 
+                            <span class="metric_value">7</span> 
+                            <span class="metric_label">Day Streak</span>
+                        </div>
+                        <div class="progress_block" data-metric="lumens">
+                            <i class="fa-solid fa-gem highlight_gr"></i> 
+                            <span class="metric_value">1250</span> 
+                            <span class="metric_label">Lumens</span>
+                        </div>
+                        <div class="progress_block" data-metric="next-level">
+                            <i class="fa-solid fa-arrow-up highlight_yell"></i> 
+                            <span class="metric_value">250</span> 
+                            <span class="metric_label">Lumens to Next Level</span>
+                        </div>
+                        <!-- End New Progress Blocks -->
+
+                    </div>                    
+                </div>
+
+                <!--Vertical Adspace-->
+                <div class="vertical_adspace">
+                    <h2>AdSpace</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // JavaScript for the circular progress bar animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const circleProgress = document.querySelector('.circle_progress');
+            const progressValueSpan = circleProgress.querySelector('.prg_value');
+            const dataProgress = parseInt(circleProgress.getAttribute('data-progress'));
+            const dataStart = parseInt(circleProgress.getAttribute('data-start'));
+
+            let currentProgress = dataStart;
+            const speed = 20; // Adjust speed as needed
+
+            const progress = setInterval(() => {
+                currentProgress++;
+                progressValueSpan.textContent = `${currentProgress}%`;
+                circleProgress.style.background = `conic-gradient(
+                    var(--progress-color) ${currentProgress * 3.6}deg,
+                    #d9d9d9 ${currentProgress * 3.6}deg
+                )`;
+                if (currentProgress === dataProgress) {
+                    clearInterval(progress);
+                }
+            }, speed);
+
+            // JavaScript for interactive progress blocks
+            const progressBlocks = document.querySelectorAll('.progress_block');
+
+            progressBlocks.forEach(block => {
+                block.addEventListener('click', () => {
+                    // Remove 'active' class from all other blocks
+                    progressBlocks.forEach(otherBlock => {
+                        if (otherBlock !== block) {
+                            otherBlock.classList.remove('active');
+                        }
+                    });
+                    // Toggle 'active' class on the clicked block
+                    block.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
